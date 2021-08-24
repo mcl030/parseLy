@@ -4,12 +4,22 @@ import RecipeCard from './RecipeCard.jsx';
 
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.parseRecipe = this.parseRecipe.bind(this);
+  }
+
+  parseRecipe(e) {
+    console.log('Event from App.jsx', e);
+  }
+
   render() {
     return (
       <div id="mainPage">
         <form id="urlConverterForm">
-          <input placeholder="Enter recipe URL here!"></input>
-          <button type="submit">Parse!</button>
+          <input id="urlInput" placeholder="Enter recipe URL here!"></input>
+          <button id="urlSubmit" type="submit" onClick={e => parseRecipe(e)}>Parse!</button>
         </form>
         <RecipeCard />
       </div>
