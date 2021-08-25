@@ -1,7 +1,7 @@
 import { hot } from 'react-hot-loader/root';
 import React, { Component } from 'react';
 import RecipeCard from './RecipeCard.jsx';
-
+import fetch from 'node-fetch';
 
 class App extends Component {
   constructor(props) {
@@ -11,7 +11,14 @@ class App extends Component {
   }
 
   parseRecipe(e) {
-    console.log('Event from App.jsx', e);
+    const url = e.target.previousSibling.value;
+    console.log('App.jsx RECIPE URL: ', url);
+    fetch('/recipe', {
+      method: 'POST', 
+      headers: {url: url}
+    })
+    .then(res => res.json())
+    .then(res => console.log(res))
   }
 
   render() {
@@ -19,7 +26,7 @@ class App extends Component {
       <div id="mainPage">
         <form id="urlConverterForm">
           <input id="urlInput" placeholder="Enter recipe URL here!"></input>
-          <button id="urlSubmit" type="submit" onClick={e => parseRecipe(e)}>Parse!</button>
+          <button id="urlSubmit" type="button" onClick={e => this.parseRecipe(e)}>Parse!</button>
         </form>
         <RecipeCard />
       </div>
@@ -28,4 +35,4 @@ class App extends Component {
 }
 
 
-export default hot(App);
+export default App;

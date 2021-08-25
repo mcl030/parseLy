@@ -9,9 +9,9 @@ class RecipeCard extends Component {
     <div>
       <title className="recipeTitle">Lasagna Bolognese</title>
       <div>
-        {/* <IngredientSection />
+        <IngredientSection />
         <PictureSection />
-        <DirectionSection /> */}
+        <DirectionSection />
       </div>
     </div>
     )

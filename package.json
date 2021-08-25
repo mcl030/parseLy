@@ -5,13 +5,17 @@
   "main": "./client/index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production nodemon server/server.js",
-    "dev": "cross-env NODE_ENV=development concurrently \"webpack-dev-server\" \"nodemon server/server.js\""
+    "dev": "cross-env NODE_ENV=development concurrently \"webpack-dev-server\" \"nodemon server/server.js\"",
+    "webpack": "cross-env NODE_ENV=development webpack-dev-server"
   },
   "author": "Matthew Lee",
   "license": "ISC",
   "dependencies": {
     "@hot-loader/react-dom": "^17.0.1",
+    "core-js": "^3.16.3",
     "express": "^4.16.3",
+    "jsdom": "^17.0.0",
+    "jsonld": "^5.2.0",
     "mongoose": "^5.13.7",
     "node-fetch": "^2.3.0",
     "pg": "^8.5.1",
@@ -20,6 +24,7 @@
     "react-hot-loader": "^4.6.3",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
+    "regenerator-runtime": "^0.13.9",
     "win-node-env": "^0.4.0"
   },
   "devDependencies": {
