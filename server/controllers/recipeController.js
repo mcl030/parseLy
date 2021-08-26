@@ -48,10 +48,7 @@ recipeController.jsonld = async (req, res, next) => {
   } catch(e) {
     await page.close();
     await browser.close();
-    return next({
-      log: 'Error occurred while using puppeteer',
-      message: { err: e }
-    })
+    return next();
   } 
 
   script = JSON.parse(script);
@@ -66,9 +63,7 @@ recipeController.jsonld = async (req, res, next) => {
       }
     }
     if (foundRecipe === false) {
-      return next({
-        log: 'Error: no recipe found in application/ld+json',
-      })
+      return next();
     }
   }
 
@@ -137,6 +132,20 @@ recipeController.getRecipes = async (req, res, next) => {
       log: 'Error occurred while getting recipes',
       message: { err: e }
     })
+  }
+}
+
+recipeController.deleteRecipe = async (req, res, next) => {
+  try {
+    res.recipe = {};
+    res.recipe.deletedRecipe = false;
+    const id = req.headers.id;
+    await models.Recipe.findOneAndDelete({_id: id});
+    res.recipe.deletedRecipe = true;
+    return next();
+  }
+  catch(e) {
+    return next();
   }
 }
 

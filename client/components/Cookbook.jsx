@@ -11,6 +11,7 @@ class Cookbook extends Component {
 
 
     this.parseRecipe = this.parseRecipe.bind(this);
+    this.parseRecipe = this.deleteRecipe.bind(this);
   }
 
   componentDidMount() {
@@ -39,10 +40,29 @@ class Cookbook extends Component {
         alert('Recipe already exists!');
       } 
       if (res.createdRecipe === true) {
-        alert('Recipe created!')
+        alert('Recipe created!');
+        location.reload();
       }
       if (res.createdRecipe === false) {
         alert('Failed to create recipe')
+      }
+    })
+  }
+
+  deleteRecipe(id) {
+    console.log(id);
+    fetch('/recipe', {
+      method: 'DELETE', 
+      headers: {id: id}
+    })
+    .then(res => res.json())
+    .then(res => {
+      if (res.deletedRecipe === true) {
+        alert('Recipe deleted!');
+        location.reload();
+      }
+      if (res.deletedRecipe === false) {
+        alert('Failed to delete recipe')
       }
     })
   }
@@ -60,7 +80,7 @@ class Cookbook extends Component {
     const recipeLinks = recipes.map((recipe, i) => {
       return (
         <div key={i} className="recipeContainer">
-          <button className="deleteButton" type="button">DELETE</button>
+          <button className="deleteButton" type="button" onClick={e => this.deleteRecipe(recipe._id)}>DELETE</button>
           <Link to={{pathname: '/recipeCard', state: { recipe: recipes[i]}}}>
             <div>{recipe.name} by {recipe.author}</div>
           </Link>
