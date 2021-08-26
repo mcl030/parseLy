@@ -24,7 +24,6 @@ app.use((err, req, res, next) => {
     message: { err: 'An error occurred' }
   };
   errObj = Object.assign(defaultErr, err);
-  // maybe needs to be turned into json
   return res.status(errObj.status).send(errObj.message)
 })
 

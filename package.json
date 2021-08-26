@@ -19,6 +19,7 @@
     "mongoose": "^5.13.7",
     "node-fetch": "^2.3.0",
     "pg": "^8.5.1",
+    "puppeteer": "^10.2.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-hot-loader": "^4.6.3",
