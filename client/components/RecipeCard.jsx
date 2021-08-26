@@ -13,9 +13,9 @@ class RecipeCard extends Component {
     const state = this.props.location.state;
 
     return (
-    <div>
-      <title className="recipeTitle">Lasagna Bolognese</title>
-      <div>
+    <div className="recipe">
+      <div className="recipeName">{state.recipe.name}</div>
+      <div className="recipeDetails">
         <IngredientSection ingredients={state.recipe.recipeIngredient}/>
         <PictureSection />
         <DirectionSection directions={state.recipe.recipeInstructions}/>

@@ -37,8 +37,12 @@ class Cookbook extends Component {
     .then(res => {
       if (res.foundRecipe === true) {
         alert('Recipe already exists!');
-      } else {
-        alert('Recipe created!');
+      } 
+      if (res.createdRecipe === true) {
+        alert('Recipe created!')
+      }
+      if (res.createdRecipe === false) {
+        alert('Failed to create recipe')
       }
     })
   }
@@ -50,14 +54,17 @@ class Cookbook extends Component {
     if (!recipes) return null;
 
     if (!recipes.length) return (
-      <div>Sorry, no recipes found</div>
+      <div>Loading recipes...</div>
     );
 
     const recipeLinks = recipes.map((recipe, i) => {
       return (
-        <Link key={i} to={{pathname: '/recipeCard', state: { recipe: recipes[i]}}}>
-          <div>{recipe.name} by {recipe.author}</div>
-        </Link>
+        <div key={i} className="recipeContainer">
+          <button className="deleteButton" type="button">DELETE</button>
+          <Link to={{pathname: '/recipeCard', state: { recipe: recipes[i]}}}>
+            <div>{recipe.name} by {recipe.author}</div>
+          </Link>
+        </div>
       );
     });
 

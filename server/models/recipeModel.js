@@ -13,14 +13,14 @@ mongoose.connect(MONGO_URI, {
 const Schema = mongoose.Schema;
 
 const recipeSchema = new Schema({
-  url: String,
-  name: String,
-  author: String,
+  url: {type: String, required: true},
+  name: {type: String, required: true},
+  author: {type: String, required: true},
   image: String,
   cookTime: String,
   totalTime: String,
-  recipeIngredient: {type: Array, items: {type: String}},
-  recipeInstructions: {type: Array, items: {type: String}},
+  recipeIngredient: {type: Array, items: {type: String}, required: true},
+  recipeInstructions: {type: Array, items: {type: String}, required: true},
 });
 
 const Recipe = mongoose.model('recipe', recipeSchema);

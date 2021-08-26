@@ -16,9 +16,9 @@ class IngredientSection extends Component {
     });
     
     return (
-    <div>
+    <div className="vertContainer">
       INGREDIENTS: 
-      <ul>
+      <ul className="list">
         { ingredientList }
       </ul>
     </div>

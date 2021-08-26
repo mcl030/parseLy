@@ -16,9 +16,9 @@ class DirectionSection extends Component {
     });
     
     return (
-    <div>
+    <div className="vertContainer">
       DIRECTIONS: 
-      <ol>
+      <ol className="list">
         { directionsList }
       </ol>
     </div>

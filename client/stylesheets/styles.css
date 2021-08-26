@@ -1,0 +1,50 @@
+body {
+  background-color: powderblue;
+  margin: 0px;
+  padding: 10px;
+  height: 100%;
+}
+
+.recipeContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.deleteButton {
+  margin-right: 10px;
+}
+
+.recipe {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  margin: 0px;
+  padding: 5px;
+}
+
+.recipeName {
+  font-size: 48pt;
+}
+
+.recipeDetails {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 100%;
+  margin: 0px;
+}
+
+.list {
+  display: inline-block;
+  flex-direction: column;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  padding: 0px 0px 0px 10px;
+  margin: 0px;
+  list-style-position: inside;
+}
+
+.vertContainer {
+  display: flex;
+  flex-direction: column;
+}
