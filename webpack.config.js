@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: [
-    // "regenerator-runtime/runtime.js",
+    "regenerator-runtime/runtime.js",
     path.join(__dirname, '/client/index.js')],
   output: {
     path: path.join(__dirname, '/build'),
@@ -36,6 +36,11 @@ module.exports = {
     port: 8080,
     proxy: {
       '/recipe': 'http://localhost:3000',
+    },
+    headers: {
+      'Access-Control-Allow-Origin' : '*', 
+      'Access-Control-Allow-Methods': '*',
+      'Access-Control-Allow-Headers': '*'
     },
     compress: true,
     hot: true,

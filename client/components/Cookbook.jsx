@@ -6,17 +6,44 @@ class Cookbook extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipes: []
+      recipes: [],
+      hashStatus: false, 
+      currentUser: "",
+      currentlyLoggedIn: false,
     }
 
-
+    this.googleLogin = this.googleLogin.bind(this);
     this.parseRecipe = this.parseRecipe.bind(this);
-    this.parseRecipe = this.deleteRecipe.bind(this);
+    this.deleteRecipe = this.deleteRecipe.bind(this);
+    this.googleCheck = this.googleCheck.bind(this);
+    this.getRecipes = this.getRecipes.bind(this);
   }
 
-  componentDidMount() {
+  async googleCheck() {
+    const hash = (new URL(document.location)).hash;
+    const access_code = hash.match(/(?<=#access_token=)(.*)(?=&token_type)/)[0]
+    console.log('ACCESS CODE: ', access_code);
+    await fetch('/recipe/id', {
+      method: 'get', 
+      headers: {access_code: access_code}
+    })
+    .then(res => res.json())
+    .then(res => {
+      console.log('currentUser should be: ', res.id)
+      return this.setState({
+        currentUser: res.id,
+        currentlyLoggedIn: true,
+      })
+    });
+
+
+    await this.getRecipes();
+  }
+
+  getRecipes() {
     fetch('/recipe', {
-      method: 'get'
+      method: 'get', 
+      headers: {user: this.state.currentUser}
     })
     .then(res => res.json())
     .then(recipes => {
@@ -26,13 +53,31 @@ class Cookbook extends Component {
       });
     })
     .catch(e => console.log('Recipes did not mount correctly: ', e))
+    
+    this.setState({
+      hashStatus: true
+    })
+  }
+
+  googleLogin() {
+    console.log('trying to login w/ google');
+    fetch('/recipe/oauth', {
+      method: 'get'
+    })
   }
 
   parseRecipe(e) {
+    if (this.state.currentlyLoggedIn === false) {
+      alert('Must be logged in!')
+      return;
+    }
     const url = e.target.previousSibling.value;
+    const currentUser = this.state.currentUser;
     fetch('/recipe', {
       method: 'POST', 
-      headers: {url: url}
+      headers: {
+        url: url, 
+        user: currentUser}
     })
     .then(res => res.json())
     .then(res => {
@@ -41,7 +86,7 @@ class Cookbook extends Component {
       } 
       if (res.createdRecipe === true) {
         alert('Recipe created!');
-        location.reload();
+        this.getRecipes();
       }
       if (res.createdRecipe === false) {
         alert('Failed to create recipe')
@@ -71,12 +116,6 @@ class Cookbook extends Component {
 
     const { recipes } = this.state;
 
-    if (!recipes) return null;
-
-    if (!recipes.length) return (
-      <div>Loading recipes...</div>
-    );
-
     const recipeLinks = recipes.map((recipe, i) => {
       return (
         <div key={i} className="recipeContainer">
@@ -88,8 +127,21 @@ class Cookbook extends Component {
       );
     });
 
+    
+
+    if (window.location.hash) {
+      this.googleCheck();
+      if (this.state.hashStatus === true) {
+        window.location.hash = "";
+      }
+    }
+
     return (
       <div id="mainPage">
+        <div id="mainTitle">parseLy</div>
+        <form id="googleLogin" action='/recipe/oauth' method='GET'>
+          <input id="googleAuthButton" type="submit" value="Login with Google for your recipes!"></input>
+        </form>
         <form id="urlConverterForm">
           <input id="urlInput" placeholder="Enter recipe URL here!"></input>
           <button id="urlSubmit" type="button" onClick={e => this.parseRecipe(e)}>Parse!</button>

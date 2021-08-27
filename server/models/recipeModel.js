@@ -13,6 +13,7 @@ mongoose.connect(MONGO_URI, {
 const Schema = mongoose.Schema;
 
 const recipeSchema = new Schema({
+  user: {type: String, required: true},
   url: {type: String, required: true},
   name: {type: String, required: true},
   author: {type: String, required: true},

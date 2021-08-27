@@ -1,13 +1,18 @@
 const puppeteer = require('puppeteer');
 const models = require('../models/recipeModel');
-
+const fetch = require('node-fetch');
 const recipeController = {};
+const {google} = require('googleapis');
+
+const client_id = '995088563725-23ed8cidr01997f8r8svjdmuo2dvligf.apps.googleusercontent.com';
+const client_secret = 'DNFrvQ28F6-oF8y6MyqPYxgf';
 
 recipeController.checkDB = async (req, res, next) => {
   const url = req.headers.url;
+  const user = req.headers.user;
   res.recipe = {};
   try {
-    const results = await models.Recipe.find({url: url})
+    const results = await models.Recipe.find({url: url, user: user})
     if (results.length > 0) {
       res.recipe.foundRecipe = true;
       return next();
@@ -31,7 +36,8 @@ recipeController.jsonld = async (req, res, next) => {
   res.recipe.createdRecipe = false;
 
   const url = req.headers.url;
-  
+  const user = req.headers.user;
+
   let script;
   try {
     const browser = await puppeteer.launch({
@@ -105,6 +111,7 @@ recipeController.jsonld = async (req, res, next) => {
     };
   };
 
+  res.recipe.user = user;
   res.recipe.url = url;
   res.recipe.name = script.name;
   res.recipe.author = script.author;
@@ -123,7 +130,9 @@ recipeController.jsonld = async (req, res, next) => {
 
 recipeController.getRecipes = async (req, res, next) => {
   try {
-    const results = await models.Recipe.find({});
+    const user = req.headers.user;
+    console.log('USER: ', user)
+    const results = await models.Recipe.find({user: user});
     res.locals = results;
     return next();
   }
@@ -146,6 +155,23 @@ recipeController.deleteRecipe = async (req, res, next) => {
   }
   catch(e) {
     return next();
+  }
+}
+
+recipeController.loginGoogle = async (req, res, next) => {
+  try {
+    console.log('made it to loginGoogle method')
+
+    const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?scope=openid%20profile%20email&response_type=token&redirect_uri=http://localhost:8080&client_id=${client_id}`;
+
+    res.redirect(googleUrl);
+
+  }
+  catch(e) {
+    return next({
+      log: 'Error occurred while loggin in w/ google',
+      message: { err: e }
+    })
   }
 }
 

@@ -5,6 +5,12 @@ body {
   height: 100%;
 }
 
+#mainTitle {
+  font-size: 48pt;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
 .recipeContainer {
   display: flex;
   flex-direction: row;
