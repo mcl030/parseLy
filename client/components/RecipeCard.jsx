@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import IngredientSection from './IngredientSection.jsx';
 import PictureSection from './PictureSection.jsx';
 import DirectionSection from './DirectionSection.jsx'
-
+import { Link } from 'react-router-dom';
 
 class RecipeCard extends Component {
   constructor(props) {
