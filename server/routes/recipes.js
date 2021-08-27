@@ -26,6 +26,7 @@ router.get('/oauth', recipeController.loginGoogle, (req, res) => {
 router.get('/id', async (req, res) => {
   const access_token = req.headers.access_code;
   res.recipe = {};
+  
   // https://openidconnect.googleapis.com/v1/userinfo
   // https://www.googleapis.com/oauth2/v2/userinfo
 
