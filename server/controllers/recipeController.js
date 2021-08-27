@@ -119,7 +119,7 @@ recipeController.jsonld = async (req, res, next) => {
   res.recipe.recipeIngredient = script.recipeIngredient;
   res.recipe.recipeInstructions = recipeInstructions;
   if (script.cookTime) {res.recipe.cookTime = parseISO8601Duration(script.cookTime).hours + " hours and " + parseISO8601Duration(script.cookTime).minutes + " minutes"};
-  if (script.cookTime) {res.recipe.totalTime = parseISO8601Duration(script.totalTime).hours + " hours and " + parseISO8601Duration(script.totalTime).minutes + " minutes"};
+  if (script.totalTime) {res.recipe.totalTime = parseISO8601Duration(script.totalTime).hours + " hours and " + parseISO8601Duration(script.totalTime).minutes + " minutes"};
 
   models.Recipe.create(res.recipe)
 
